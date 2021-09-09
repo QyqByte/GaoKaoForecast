@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>gaokao</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+</head>
+
+<style type="text/css">
+  body{
+
+    background-image: url("images/library.jpg") ;
+    background-repeat: repeat;
+    background-size: cover;
+
+    animation: mymove 24s linear infinite;
+    animation-delay: 2s;
+    animation-direction: alternate;
+  }
+  @keyframes mymove {
+    0% {background-image: url("images/xuexiao3.jpg")}
+    20% {background-image: url("images/复旦大学.jpg")}
+    40% {background-image: url("images/xuexiao4.jpg")}
+    60% {background-image: url("images/xuexiao2.jpg")}
+    80% {background-image: url("images/xuexiao5.jpg")}
+    100% {background-image: url("images/library.jpg")}
+  }
+
+</style>
+
+<body>
+<div id="Mydivs">
+  <div  th:fragment="nav-menu">
+    <div class="ui secondary menu" style="font-size: large">
+      <a class="item"></a>
+      <a class="item"  th:href="@{/main}">首页</a>
+
+      <!--登录注销-->
+      <div class="right menu">
+        <!--未登录-->
+        <a class="item">
+          <i class="address card icon"></i> [[${session.username}]]
+        </a>
+
+        <!--注销-->
+        <a class="item" th:href="@{/userLogOut}">
+          <i class="sign-in alternate icon"></i> 注销
+        </a>
+
+        <a class="item"></a>
+        <!--已登录
+        <a th:href="@{/usr/toUserCenter}">
+            <i class="address card icon"></i> admin
+        </a>
+        -->
+      </div>
+    </div>
+  </div>
+  <h1 align="center">河南省内高校专业推荐指南</h1>
+  <form id="formtable" action="/searchByscoreRank" method="post">
+    <table align="center">
+      <tr>
+        <!--<td style="font-size: large">请输入您的省排名：<input type="number" name="scoreRand">
+        </td>-->
+        <td>
+          <select name="SelectRef" id="SelectRef" onchange="showform()" style="font-size: large;">
+            <option value="1">请选择您的查询方式：</option>
+            <option value="2">高考成绩</option>
+            <option value="3">高考排名</option>
+            <option value="4">高考成绩和高考排名</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <div class="form-row">
+          <td id="choosescore" style="font-size: large;display: none;">请输入您的高考成绩：<input type="number" name="score"></td>
+        </div>
+        <div class="form-row">
+          <td id="chooseranking" style="font-size: large;display: none;">请输入您的高考名次：<input type="number" name="scoreRank"></td>
+        </div>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="查询" style="font-size: large"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="reset" value="重新输入" style="font-size: large"></td>
+      </tr>
+    </table>
+  </form>
+
+</div>
+
+
+<!--<img src="images/251.jpg">-->
+<script type="text/javascript">
+
+  const select  = document.querySelector('#SelectRef')
+  const score = document.querySelector('#choosescore')
+  const rank = document.querySelector('#chooseranking');
+  const formtable = document.querySelector('#formtable');
+  function showform() {
+    if(select.value === '1') {
+      score.style.display = 'none';
+      rank.style.display = 'none'
+    }
+    if(select.value === '2') {
+      score.style.display = 'block';
+      rank.style.display = 'none';
+      formtable.action = '/searchByScore';
+    }
+    if(select.value === '3') {
+      score.style.display = 'none';
+      rank.style.display = 'block';
+      formtable.action = '/searchByscoreRank'
+    }
+    if(select.value === '4') {
+      score.style.display = 'block';
+      rank.style.display = 'block';
+      formtable.action = '/searchByRankAndScoreResult'
+    }
+  }
+</script>
+<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/js/semantic.min.js}"></script>
+</body>
+</html>

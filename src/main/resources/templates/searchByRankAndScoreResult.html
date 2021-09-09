@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tables</title>
+    <!-- Mobile specific metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Force IE9 to render in normal mode -->
+
+    <meta name="author" content="SuggeElson" />
+    <meta name="description" content=""
+    />
+    <meta name="keywords" content=""
+    />
+    <meta name="application-name" content="sprFlat admin template" />
+    <!-- Import google fonts - Heading first/ text second -->
+    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans:400,700' />
+
+    <!-- Css files -->
+    <!-- Icons -->
+    <link href="css/icons.css" rel="stylesheet" />
+    <!-- jQueryUI -->
+    <link href="css/sprflat-theme/jquery.ui.all.css" rel="stylesheet" />
+    <!-- Bootstrap stylesheets (included template modifications) -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <!-- Plugins stylesheets (all plugin custom css) -->
+    <link href="css/plugins.css" rel="stylesheet" />
+    <!-- Main stylesheets (template main css file) -->
+    <link href="css/main.css" rel="stylesheet" />
+    <!-- Custom stylesheets ( Put your own changes here ) -->
+    <link href="css/custom.css" rel="stylesheet" />
+    <!-- Fav and touch icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+
+</head>
+
+<style type="text/css" >
+    body{
+        background-image: url("images/library.jpg") ;
+        background-repeat: repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .kk{
+        width: 100%;
+        /*position: fixed;*/
+        height: 15%;
+        color: black;
+    }
+    #title1{
+        align-self: center;
+    }
+    table{
+        margin-bottom: 5px;
+        margin-top: 5px;
+        color: black;
+    }
+    #content{
+        color: black;
+    }
+</style>
+
+<body>
+<header>
+    <div th:replace="~{main::nav-menu}"></div>
+</header>
+<main>
+    <div  class="kk">
+        <div th:align="center" style="font-size: large" class="title1"><h2>您的高考成绩为：[[${score}]]，您的高考名次为：[[${scorerank}]]</h2></div>
+
+        <h2 id="title1">推荐您的专业和学校结果共有[[${nums}]]条，详情如下：</h2>
+    </div>
+    <!-- Start #content -->
+    <div id="content" th:each="schoolname: ${allschools}" th:align="center">
+        <!-- Start .content-wrapper -->
+        <div class="content-wrapper">
+
+            <div class="outlet">
+
+                <div class="row">
+                    <!-- Start .row -->
+                    <div class="col-lg-9 col-md-9">
+                        <!-- col-lg-6 start here -->
+                        <div class="panel panel-default plain toggle panelClose panelRefresh">
+                            <!-- Start .panel -->
+                            <div class="panel-heading white-bg">
+                                <h2 style="color:#000;">[[${schoolname}]]</h2>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="per5">
+                                            <label class="checkbox">
+                                                <input class="check-all" type="checkbox" value="option1">
+                                            </label>
+                                        </th>
+                                        <th class="per30">专业名</th>
+                                        <th class="per10">专业批次</th>
+                                        <th class="per10">[[${majorYear}]]年录取平均分</th>
+                                        <th class="per10">[[${majorYear}]]年最低分和最低批次</th>
+                                        <th content="per10">[[${majorYear}-1]]年录取平均分</th>
+                                        <th class="per10">[[${majorYear}-1]]年最低分和最低批次</th>
+                                        <th content="per10">[[${majorYear}-2]]年录取平均分</th>
+                                        <th class="per10">[[${majorYear}-2]]年最低分和最低批次</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="major : ${majors.get(schoolname)}">
+                                        <td>
+                                            <label class="checkbox">
+                                                <input class="check" type="checkbox" value="option2">
+                                            </label>
+                                        </td>
+                                        <td th:text="${major.nowmajor.major_name}"></td>
+                                        <td th:text="${major.nowmajor.major_batch}"></td>
+                                        <td th:text="${major.nowmajor.major_average}" th:align="center"></td>
+                                        <td th:text="${major.nowmajor.major_min_score}+'/'+${major.nowmajor.major_min_section}"></td>
+                                        <td th:text="${major.beforeMajorAverage}" th:align="center"></td>
+                                        <td th:text="${major.beforeMajorMinScore}+'/'+${major.beforeMajorMinSection}"></td>
+                                        <td th:text="${major.moreBeforeMajoraverage}" th:align="center"></td>
+                                        <td th:text="${major.moreBeforeMajorMinScore}+'/'+${major.moreBeforeMajorMinSection}"></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End .panel -->
+                    </div>
+                </div>
+            </div>
+            <!-- End .outlet -->
+        </div>
+        <!-- End .content-wrapper -->
+        <div class="clearfix"></div>
+    </div>
+</main>
+
+
+<!-- End #content -->
+<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/js/semantic.min.js}"></script>
+<!-- Javascripts -->
+<!-- Load pace first -->
+<script src="plugins/core/pace/pace.min.js"></script>
+<!-- Important javascript libs(put in all pages) -->
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!--        &lt;!&ndash;[if lt IE 9]>-->
+<!--  <script type="text/javascript" src="assets/js/libs/excanvas.min.js"></script>-->
+<!--  <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>-->
+<!--  <script type="text/javascript" src="assets/js/libs/respond.min.js"></script>-->
+<!--<![endif]&ndash;&gt;-->
+<!-- Bootstrap plugins -->
+<script src="js/bootstrap/bootstrap.js"></script>
+<!-- Core plugins ( not remove ever) -->
+<!-- Handle responsive view functions -->
+<script src="js/jRespond.min.js"></script>
+<!-- Custom scroll for sidebars,tables and etc. -->
+<script src="plugins/core/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
+<!-- Resize text area in most pages -->
+<script src="plugins/forms/autosize/jquery.autosize.js"></script>
+<!-- Proivde quick search for many widgets -->
+<script src="plugins/core/quicksearch/jquery.quicksearch.js"></script>
+<!-- Bootbox confirm dialog for reset postion on panels -->
+<script src="plugins/ui/bootbox/bootbox.js"></script>
+<!-- Other plugins ( load only nessesary plugins for every page) -->
+<script src="plugins/core/moment/moment.min.js"></script>
+<script src="plugins/charts/sparklines/jquery.sparkline.js"></script>
+<script src="plugins/charts/pie-chart/jquery.easy-pie-chart.js"></script>
+<script src="plugins/forms/icheck/jquery.icheck.js"></script>
+<script src="plugins/forms/tags/jquery.tagsinput.min.js"></script>
+<script src="plugins/forms/tinymce/tinymce.min.js"></script>
+
+<script src="plugins/misc/highlight/highlight.pack.js"></script>
+<script src="plugins/misc/countTo/jquery.countTo.js"></script>
+<script src="js/jquery.sprFlat.js"></script>
+<script src="js/app.js"></script>
+<script src="js/pages/tables.js"></script>
+</body>
+</html>

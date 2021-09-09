@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>用户注册页面</title>
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/common.css" />
+	</head>
+	<body>
+		<div class="wrap login_wrap">
+			<div class="content">
+				
+				<div class="logo"></div>
+				
+				<div class="login_box">	
+					
+					<div class="login_form">
+						<div class="login_title">
+							注册
+						</div>
+						<form action="/register" method="post">
+							
+							<div class="form_text_ipt">
+								<input name="user_name" type="text" placeholder="用户名">
+							</div>
+							<div class="ececk_warning"><span>用户名不能为空</span></div>
+							<div class="form_text_ipt">
+								<input name="user_email" type="text" placeholder="邮箱">
+							</div>
+							<div class="ececk_warning"><span>邮箱不能为空</span></div>
+							<div class="form_text_ipt">
+								<input id="pas1" name="user_password" type="password" placeholder="密码">
+							</div>
+							<div class="ececk_warning"><span>密码不能为空</span></div>
+							<div class="form_text_ipt">
+								<input id="pas2" type="password" onblur="check()" placeholder="重复密码">
+							</div>
+							<div class="ececk_warning"><span>密码不能为空</span></div>
+							<!--<div class="form_text_ipt">
+								<input name="user_rank" type="number" placeholder="高考名次">
+							</div>-->
+							<!--<div class="ececk_warning"><span>名次不能为空</span></div>
+							<div class="form_text_ipt">
+								<input name="user_score" type="number" placeholder="高考成绩">
+							</div>
+							<div class="ececk_warning"><span>成绩不能为空</span></div>-->
+							<div class="form_btn">
+								<button type="submit">注册</button>
+							</div>
+							<div class="form_reg_btn">
+								<span>已有帐号？</span><a href="/">马上登录</a>
+							</div>
+						</form>
+						<div class="other_login">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" >
+
+			function check() {
+				var k1 = document.getElementById("pas1");
+				var k2 = document.getElementById("pas2");
+
+				if(k1.value == k2.value){
+					return true;
+				}else {
+					k1.value = "";
+					k2.value = "";
+					alert("两次密码不一样，请重新输入！")
+
+				}
+			}
+		</script>
+		<script type="text/javascript" src="js/jquery.min.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+	</body>
+</html>
