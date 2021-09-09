@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qiao.gaokaoforecast.dao.UserDao">  <!--注意这里是需要一定带着namespace属性的， namespace 叫作，命名空间，具有唯一值，
+可以是自定义 的字符串，要求你使用dao接口的全限定名称。-->
+
+    <!--resultType 应该是实体类所对应的全限定名称（要具体到类名而不是包名）-->
+    <select id="selectUserByUserName" resultType="User">
+        select user_name,user_email,user_password,user_rank,user_score from users where user_name=#{userName};
+    </select>
+
+    <select id="isObtainUser" resultType="String">
+        select user_name from users where user_name=#{userName};
+    </select>
+
+    <insert id="addUser" parameterType="User">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user_name != null">
+                user_name,
+            </if>
+            <if test="user_email != null">
+                user_email,
+            </if>
+            <if test="user_password != null">
+                user_password,
+            </if>
+            <if test="user_rank != null">
+                user_rank,
+            </if>
+            <if test="user_score != null">
+                user_score,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="user_name != null">
+                #{user_name},
+            </if>
+            <if test="user_email != null">
+                #{user_email},
+            </if>
+            <if test="user_password != null">
+                #{user_password},
+            </if>
+            <if test="user_rank != null">
+                #{user_rank},
+            </if>
+            <if test="user_score != null">
+                #{user_score},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteUserByUserName" parameterType="String" >
+        delete from users where user_name=#{userName};
+    </delete>
+</mapper>

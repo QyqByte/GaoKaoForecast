@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qiao.gaokaoforecast.dao.MajorDao">  <!--注意这里是需要一定带着namespace属性的， namespace 叫作，命名空间，具有唯一值，
+可以是自定义 的字符串，要求你使用dao接口的全限定名称。-->
+
+    <!--通过schoolid找到需要的所有的专业课-->
+    <select id="selectAllMajorBySchoolId" resultType="Major">
+        select major_name,major_batch,major_min_score,major_min_section,
+                major_school_id,major_year,major_average from majors where major_school_id=#{schoolid}
+    </select>
+
+    <!--通过排名上下一万名获得所有的推荐专业-->
+    <select id="selectAllMajorByScoreRank" parameterType="int" resultType="Major">
+         select major_name,major_batch,major_min_score,major_min_section,
+                major_school_id,major_year,major_average from majors where major_year=#{major_year}
+                and major_min_section between
+                if(#{score_rank}-#{scope}>0,#{score_rank}-#{scope},0)
+                and #{score_rank}+#{scope}
+    </select>
+
+    <!--通过分数上下浮动scope大小的分值来进行推荐学校和专业-->
+    <select id="selectMajorByScore" parameterType="int" resultType="Major">
+        select major_name,major_batch,major_min_score,major_min_section,
+                major_school_id,major_year,major_average from majors where major_year=#{major_year}
+                and major_min_score between #{score}-#{scope}
+                and #{score}+#{scope}
+    </select>
+
+    <insert id="insertMajor" parameterType="Major">
+        insert into majors
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="major_name != null">
+                    major_name,
+                </if>
+                <if test="major_batch != null">
+                    major_batch,
+                </if>
+                <if test="major_min_score != null">
+                    major_min_score,
+                </if>
+                <if test="major_min_section != null">
+                    major_min_section,
+                </if>
+                <if test="major_school_id != null">
+                    major_school_id,
+                </if>
+                <if test="major_province != null">
+                    major_province,
+                </if>
+                <if test="major_year != null">
+                    major_year,
+                </if>
+                <if test="major_average != null">
+                    major_average
+                </if>
+            </trim>
+            <trim prefix="values(" suffix=")" suffixOverrides=",">
+                <if test="major_name != null">
+                    #{major_name},
+                </if>
+                <if test="major_batch != null">
+                    #{major_batch},
+                </if>
+                <if test="major_min_score != null">
+                    #{major_min_score},
+                </if>
+                <if test="major_min_section != null">
+                    #{major_min_section},
+                </if>
+                <if test="major_school_id != null">
+                    #{major_school_id},
+                </if>
+                <if test="major_province != null">
+                    #{major_province},
+                </if>
+                <if test="major_year != null">
+                    #{major_year},
+                </if>
+                <if test="major_average != null">
+                    #{major_average}
+                </if>
+            </trim>
+    </insert>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qiao.gaokaoforecast.dao.ScoreBatchDao">  <!--注意这里是需要一定带着namespace属性的， namespace 叫作，命名空间，具有唯一值，
+可以是自定义 的字符串，要求你使用dao接口的全限定名称。-->
+
+    <!--resultType 应该是实体类所对应的全限定名称（要具体到类名而不是包名）-->
+    <select id="selectBatchByYear" resultType="ScoreBatch">
+        select year,batchLiFirst,batchLiSecond,batchWenFirst,batchWenSecond from scorebatch where year=#{year};
+    </select>
+
+    <select id="selectAllYears" resultType="ScoreBatch">
+        select year,batchLiFirst,batchLiSecond,batchWenFirst,batchWenSecond from scorebatch;
+    </select>
+
+    <insert id="addNewYearBatch" parameterType="ScoreBatch">
+        insert into scorebatch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="batchLiFirst != null">
+                batchLiFirst,
+            </if>
+            <if test="batchLiSecond != null">
+                batchLiSecond,
+            </if>
+            <if test="batchWenFirst != null">
+                batchWenFirst,
+            </if>
+            <if test="batchWenSecond != null">
+                batchWenSecond,
+            </if>
+            <if test="year != null">
+                year,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="batchLiFirst != null">
+                #{batchLiFirst},
+            </if>
+            <if test="batchLiSecond != null">
+                #{batchLiSecond},
+            </if>
+            <if test="batchWenFirst != null">
+                #{batchWenFirst},
+            </if>
+            <if test="batchWenSecond != null">
+                #{batchWenSecond},
+            </if>
+            <if test="year != null">
+                #{year},
+            </if>
+        </trim>
+    </insert>
+</mapper>
